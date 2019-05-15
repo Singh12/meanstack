@@ -1,0 +1,17 @@
+ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  float: left;
+}
+ul li {
+  float: left;
+}
+a {
+  text-decoration: none;
+  color: #fff;
+  margin-left: 20px;
+}
+.space {
+  flex: 1 1;
+}
