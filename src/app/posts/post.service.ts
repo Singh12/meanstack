@@ -1,8 +1,8 @@
 import { Post } from './post.model';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -26,6 +26,7 @@ constructor(private httpClient: HttpClient, private route: Router) {}
     }))
     .subscribe(
       (data) => {
+        console.log(data);
         this.posts = data.posts;
         this.getPost.next({post: [...this.posts], maxPost: data.maxPost});
       }

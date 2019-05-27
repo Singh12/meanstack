@@ -13,8 +13,11 @@ export class SignUpComponent {
   constructor(private authService: AuthService) {
   }
   onSignup(form: NgForm) {
-    const userData = { email: form.value.email, password: form.value.password };
-    this.authService.signUp(userData);
+    if (form.invalid) {
+      return;
+    }
+    // const userData = { email: form.value.email, password: form.value.password };
+    this.authService.createUser(form.value.email, form.value.password);
   }
 }
 

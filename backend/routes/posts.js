@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const Post = require("../models/post");
+const checkAuth = require("../middleware/check-auth");
 const router = express.Router();
 
 const MIME_TYPE_MAP = {
@@ -27,7 +28,7 @@ const storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-router.post("",multer({storage: storage}).single("image") ,(req, res, next) => {
+router.post("",checkAuth, multer({storage: storage}).single("image") ,(req, res, next) => {
   const url = req.protocol + '://' + req.get("host");
   const post = new Post({
     title: req.body.title,
@@ -84,7 +85,7 @@ router.get("/:id", (req, res, next) => {
 });
 // put request
 
-router.put("/:id", multer({storage: storage}).single("image"), (req, res, next) => {
+router.put("/:id",checkAuth, multer({storage: storage}).single("image"), (req, res, next) => {
 const url = req.protocol + "://" + req.get("host");
 let fileName = '';
 if (req.file) {
@@ -108,7 +109,7 @@ console.log(fileName);
     });
   });
 });
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id",checkAuth, (req, res, next) => {
   const id = req.param("id");
   console.log(id);
   Post.deleteOne({ _id: req.param("id") }).then(result => {
