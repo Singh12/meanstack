@@ -3,13 +3,16 @@
   <ul>
 
     <li>
-      <a routerLink="create" mat-button routerLinkActive="mat-accent">Create Post</a>
+      <a *ngIf = "userIsAunthinticated" routerLink="create" mat-button routerLinkActive="mat-accent">Create Post</a>
     </li>
     <li>
-      <a routerLink="login" mat-button routerLinkActive="mat-accent">Login</a>
+      <a *ngIf = "!userIsAunthinticated" routerLink="login" mat-button routerLinkActive="mat-accent">Login</a>
     </li>
     <li>
-      <a routerLink="signup" mat-button routerLinkActive="mat-accent">SignUp</a>
+      <a *ngIf = "!userIsAunthinticated" routerLink="signup" mat-button routerLinkActive="mat-accent">SignUp</a>
+    </li>
+    <li>
+      <button *ngIf = "userIsAunthinticated" mat-button>LogOut</button>
     </li>
   </ul>
 </mat-toolbar>

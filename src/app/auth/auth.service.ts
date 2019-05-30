@@ -1,16 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private token: string;
+  private authTokenDataCheck = false;
+  private authTokenCheck = new Subject<boolean>();
     constructor(private httpClient: HttpClient) {}
 
     getToken() {
-      if (!this.token) {
-        return;
-      }
         return this.token;
+    }
+
+    getauthTokenData() {
+      return this.authTokenDataCheck;
+    }
+
+    getAuthToken() {
+      return this.authTokenCheck.asObservable();
     }
 
     createUser(email: string, password: string) {
@@ -28,9 +36,10 @@ export class AuthService {
       this.httpClient.post<{message: string, token: string}>('http://localhost:3000/api/user/login', authData)
       .subscribe(
         data => {
-          console.log(data.token );
           const token = data.token;
           this.token = token;
+          this.authTokenCheck.next(true);
+          this.authTokenDataCheck = true;
         });
     }
 }

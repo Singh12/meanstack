@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { PageEvent } from '@angular/material';
 import { Post } from '../post.model';
 import { PostService } from '../post.service';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-post-list',
@@ -11,15 +12,22 @@ import { Subscription } from 'rxjs';
 })
 export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
+  userIsAunthinticated = false;
   subscriber: Subscription;
   isLoading = false;
   totalPost = 0;
   currentPage = 1;
   postPerPage = 1;
   pageSizeOptions: number[] = [1, 2, 5, 10];
-  constructor(private postSevice: PostService) {}
+  constructor(private postSevice: PostService, private authService: AuthService) {}
   ngOnInit() {
     this.postSevice.getPosts(this.postPerPage, this.currentPage);
+    // this.userIsAunthinticated = this.authService.getauthTokenData();
+    this.authService.getAuthToken().subscribe(
+      authData => {
+        this.userIsAunthinticated = authData;
+        console.log(this.userIsAunthinticated);
+      });
     this.subscriber = this.postSevice
       .getPostUpdateListener()
       .subscribe((postsDtata: { post: Post[], maxPost: number }) => {
