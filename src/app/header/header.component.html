@@ -12,7 +12,7 @@
       <a *ngIf = "!userIsAunthinticated" routerLink="signup" mat-button routerLinkActive="mat-accent">SignUp</a>
     </li>
     <li>
-      <button *ngIf = "userIsAunthinticated" mat-button>LogOut</button>
+      <button *ngIf = "userIsAunthinticated" mat-button (click)="logout()">LogOut</button>
     </li>
   </ul>
 </mat-toolbar>

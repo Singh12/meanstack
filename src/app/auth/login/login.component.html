@@ -1,5 +1,5 @@
-<mat-spinner *ngIf="!isLoading"></mat-spinner>
-<form class="example-form"  *ngIf="isLoading" (ngSubmit)="onLogin(f)" #f="ngForm">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<form class="example-form"  *ngIf="!isLoading" (ngSubmit)="onLogin(f)" #f="ngForm">
   <mat-card>
     <mat-form-field class="example-full-width">
       <input matInput placeholder="Enter Email" name="email" type="email" ngModel required email #email="ngModel">
@@ -12,4 +12,5 @@
     </mat-form-field>
     <button mat-button type='submit' color="warn" >LoginIn</button>
   </mat-card>
+ 
 </form>

@@ -46,7 +46,8 @@ router.post('/login',(req, res, next) => {
       console.log(token);
       res.status(200).json({
         message: 'Loging Successful',
-        token: token
+        token: token,
+        expiresIn: 3600
       });
     })
     .catch(err => {

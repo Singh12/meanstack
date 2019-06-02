@@ -11,10 +11,13 @@ userIsAunthinticated = false;
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    this.userIsAunthinticated = this.authService.getauthTokenData();
     this.authService.getAuthToken().subscribe(
       authValue => {
           this.userIsAunthinticated = authValue;
       });
   }
-
+  logout() {
+    this.authService.logout();
+  }
 }

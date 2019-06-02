@@ -22,11 +22,11 @@ export class PostListComponent implements OnInit, OnDestroy {
   constructor(private postSevice: PostService, private authService: AuthService) {}
   ngOnInit() {
     this.postSevice.getPosts(this.postPerPage, this.currentPage);
-    // this.userIsAunthinticated = this.authService.getauthTokenData();
+    this.userIsAunthinticated = this.authService.getauthTokenData();
     this.authService.getAuthToken().subscribe(
       authData => {
         this.userIsAunthinticated = authData;
-        console.log(this.userIsAunthinticated);
+        console.log(this.userIsAunthinticated, 'I am in');
       });
     this.subscriber = this.postSevice
       .getPostUpdateListener()
