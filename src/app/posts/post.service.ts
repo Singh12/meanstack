@@ -20,7 +20,8 @@ constructor(private httpClient: HttpClient, private route: Router) {}
                 title: post.title,
                 content: post.content,
                 image: post.image,
-                id: post._id
+                id: post._id,
+                creator: post.creator
               };
             }), maxPost: response.length};
     }))
@@ -49,10 +50,10 @@ constructor(private httpClient: HttpClient, private route: Router) {}
   }
 
   updatePost(id: string, title: string, content: string, image: File | string) {
-   let postData;
+   let postData: Post | FormData;
    if (typeof image !== 'object') {
      console.log(typeof image);
-    postData = {id: id, title: title, content: content, image: image};
+    postData = {id: id, title: title, content: content, image: image, creator: null};
   } else {
     postData = new FormData();
     postData.append('id', id);

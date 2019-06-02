@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   userIsAunthinticated = false;
+  getUseId: string;
   subscriber: Subscription;
   isLoading = false;
   totalPost = 0;
@@ -23,10 +24,11 @@ export class PostListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.postSevice.getPosts(this.postPerPage, this.currentPage);
     this.userIsAunthinticated = this.authService.getauthTokenData();
+    this.getUseId = this.authService.getUserId();
     this.authService.getAuthToken().subscribe(
       authData => {
         this.userIsAunthinticated = authData;
-        console.log(this.userIsAunthinticated, 'I am in');
+        this.getUseId = this.authService.getUserId();
       });
     this.subscriber = this.postSevice
       .getPostUpdateListener()

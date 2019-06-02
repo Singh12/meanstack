@@ -8,9 +8,14 @@ export class AuthGuard implements CanActivate {
     constructor(private authService: AuthService, private router: Router) {
     }
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+        this.authKey = this.authService.getauthTokenData();
         this.authService.getAuthToken().subscribe(
-            auth => this.authKey = auth
+            auth => {
+                this.authKey = auth;
+                console.log(this.authKey);
+            }
         );
+        console.log(this.authKey);
         if (!this.authKey) {
             this.router.navigate(['/']);
         }

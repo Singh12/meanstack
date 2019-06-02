@@ -33,8 +33,10 @@ router.post("",checkAuth, multer({storage: storage}).single("image") ,(req, res,
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
-    image: url +"/image/"+ req.file.filename
+    image: url +"/image/"+ req.file.filename,
+    creator: req.userData.userId
   });
+
   post.save().then(createdPost => {
     res.status(201).json({
       message: "Post added data success",
@@ -93,31 +95,42 @@ if (req.file) {
 } else {
    fileName = req.body.image;
 }
-console.log(fileName);
   Post.updateOne(
-    { _id: req.param("id") },
+    { _id: req.param("id"), creator: req.userData.userId },
     {
       $set: {
         title: req.body.title,
         content: req.body.content,
-        image: fileName
+        image: fileName,
+        creator: req.userData.userId
       }
     }
-  ).then(document => {
-    res.status(200).json({
-      message: "Post updated successesfully"
-    });
+  ).then(result => {
+    if (result.n > 0) {
+      res.status(200).json({
+        message: "Post updated successesfully"
+      });
+    } else {
+      res.status(401).json({
+        message: "Auth Failed"
+      });
+    } 
   });
 });
 router.delete("/:id",checkAuth, (req, res, next) => {
   const id = req.param("id");
   console.log(id);
-  Post.deleteOne({ _id: req.param("id") }).then(result => {
-    console.log(req.param.id);
-    console.log(result);
+  Post.deleteOne({ _id: req.param("id"), creator: req.userData.userId }).then(result => {
+    if (result.n > 0) {
+      res.status(200).json({
+        message: "Post deleted successesfully"
+      });
+    } else {
+      res.status(401).json({
+        message: "Auth Failed"
+      });
+    } 
   });
-  res.status(200).json({
-    message: "Post fetched successesfully"
-  });
+
 });
 module.exports = router;
