@@ -9,10 +9,11 @@ import { AuthService } from '../auth.service';
 })
 
 export class SignUpComponent {
-  isLoading = true;
+  isLoading = false;
   constructor(private authService: AuthService) {
   }
   onSignup(form: NgForm) {
+    this.isLoading = true;
     if (form.invalid) {
       return;
     }
